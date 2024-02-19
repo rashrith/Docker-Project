@@ -1,12 +1,14 @@
-FROM ubuntu:latest
-RUN apt-get update -y
-RUN apt-get install -y python3
-RUN apt-get install dos2unix
-RUN mkdir -p /home/data
+# Use the official Python image from Docker Hub
+FROM python:3.8-alpine
+
+WORKDIR /home
+COPY main.py .
+
+# Create the /home/output directory inside the container
 RUN mkdir -p /home/output
-COPY ./Limerick-1.txt /home/data
-COPY ./IF.txt /home/data
-COPY ./main.py /home/data
-RUN dos2unix /home/data/main.py
-CMD ["./home/data/main.py"]
-RUN ["./home/data/main.py"]
+
+WORKDIR  /home/data
+COPY . .
+
+# Run the command when the container starts
+CMD ["python", "/home/main.py"]
